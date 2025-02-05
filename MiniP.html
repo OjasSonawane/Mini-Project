@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Restaurant</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="logo">Modern Eats</div>
+        <ul class="nav-links">
+            <li><a href="MiniP.html">Home</a></li>
+            <li><a href="#offers">Offers</a></li>
+            <li><a href="booking.html">Reservation</a></li>
+        </ul>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Welcome to Modern Eats</h1>
+            <p>Experience the finest dining in town</p>
+            <a href="booking.html" class="btn">Book a Table</a>
+        </div>
+    </section>
+
+    <section id="offers" class="offers">
+        <h2>Our Special Offers</h2>
+        <div class="offers-tiles">
+            <div class="offer-tile">
+                <img src="https://via.placeholder.com/300" alt="Offer 1">
+                <div class="offer-details">
+                    <h3>Offer 1</h3>
+                    <p>Get 20% off your meal!</p>
+                </div>
+            </div>
+            <div class="offer-tile">
+                <img src="https://via.placeholder.com/300" alt="Offer 2">
+                <div class="offer-details">
+                    <h3>Offer 2</h3>
+                    <p>Free dessert with every main course!</p>
+                </div>
+            </div>
+            <div class="offer-tile">
+                <img src="https://via.placeholder.com/300" alt="Offer 3">
+                <div class="offer-details">
+                    <h3>Offer 3</h3>
+                    <p>Buy one drink, get one free!</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <footer>
+        <div class="social-media">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+        </div>
+        <div class="footer-links">
+            <a href="#">About Us</a>
+            <a href="#">Contact</a>
+            <a href="#">Privacy Policy</a>
+        </div>
+        <p>&copy; 2025 Modern Eats. All Rights Reserved.</p>
+    </footer>
+
+
+    <div class="chatbot-icon">
+        <i class="fas fa-comments"></i>
+    </div>
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background: #f9f9f9;
+            scroll-behavior: smooth;
+        }
+
+        header {
+            background: rgba(0, 0, 0, 0.9);
+            color: #fff;
+            padding: 1.5rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            animation: slideDown 0.8s ease-out;
+            flex-wrap: wrap;
+        }
+
+        header .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+            margin-right: auto;
+        }
+
+        header .logo:hover {
+            transform: scale(1.05);
+        }
+
+        header .nav-links {
+            list-style: none;
+            display: flex;
+        }
+
+        header .nav-links li {
+            margin-left: 2.5rem;
+        }
+
+        header .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+
+        header .nav-links a:hover {
+            color: #ff6b6b;
+        }
+
+        .hero {
+            background: url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80') no-repeat center center/cover;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(2px);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            animation: fadeIn 2s ease-out;
+        }
+
+        .hero-content p {
+            font-size: 1.5rem;
+            opacity: 0.8;
+            margin-top: 1.5rem;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            animation: fadeIn 2.5s ease-out;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #ff6b6b, #ff4c4c);
+            color: #fff;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            animation: fadeIn 3s ease-out;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            background-color: #ff4c4c;
+        }
+
+
+        .offers {
+            padding: 4rem 2rem;
+            text-align: center;
+            background: #fff;
+        }
+
+        .offers h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .offers-tiles {
+            display: flex;
+            gap: 2rem;
+            justify-content: flex-start;
+            animation: slideIn 20s linear infinite; 
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .offer-tile {
+            background: #fff;
+            width: 300px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .offer-tile:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .offer-tile img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .offer-tile img:hover {
+            transform: scale(1.05);
+        }
+
+        .offer-details {
+            padding: 1rem;
+            background-color: #ff6b6b;
+            color: white;
+            border-radius: 0 0 10px 10px;
+            text-align: center;
+        }
+
+        .offer-details h3 {
+            font-size: 1.5rem;
+        }
+
+        .offer-details p {
+            font-size: 1rem;
+            margin-top: 0.5rem;
+        }
+
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+
+        .footer-links a {
+            color: #555;
+            text-decoration: none;
+            margin: 0 1rem;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #ff6b6b;
+        }
+
+        .social-media {
+            display: flex;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+
+        .social-media a {
+            color: #555;
+            font-size: 1.5rem;
+            margin: 0 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-media a:hover {
+            color: #ff6b6b;
+        }
+
+        .chatbot-icon {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: #ff6b6b;
+            color: #fff;
+            border-radius: 50%;
+            padding: 1rem;
+            font-size: 2rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .chatbot-icon:hover {
+            transform: scale(1.1);
+        }
+
+        @keyframes slideIn {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 1rem 2rem;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            header .nav-links {
+                flex-direction: column;
+                margin-top: 1rem;
+            }
+
+            header .nav-links li {
+                margin-left: 0;
+                margin-bottom: 1rem;
+            }
+
+            .hero-content h1 {
+                font-size: 3rem;
+            }
+
+            .hero-content p {
+                font-size: 1.2rem;
+            }
+
+            .offer-tile {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-content p {
+                font-size: 1rem;
+            }
+
+            .offers h2 {
+                font-size: 2rem;
+            }
+
+            .offer-tile {
+                width: 100%;
+            }
+        }
+    </style>
+</body>
+</html>
