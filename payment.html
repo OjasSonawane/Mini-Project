@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - Modern Eats</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="logo">Modern Eats</div>
+        <ul class="nav-links">
+            <li><a href="MiniP.html">Home</a></li>
+            <li><a href="#offers">Offers</a></li>
+            <li><a href="menu.html">Menu</a></li>
+        </ul>
+    </header>
+
+    <section id="payment" class="payment-section">
+        <div class="payment-container">
+            <h1>Complete Your Order</h1>
+            <p>Please select a payment method to complete your order at Modern Eats!</p>
+            
+            <div class="order-summary">
+                <h2>Order Summary</h2>
+
+            <form id="payment-form">
+                <div class="payment-methods">
+                    <label>
+                        <input type="radio" name="payment-method" value="upi" checked> 
+                        <i class="fas fa-mobile-alt"></i> UPI (Google Pay, PhonePe, Paytm)
+                    </label>
+                    <label>
+                        <input type="radio" name="payment-method" value="credit-card">
+                        <i class="fas fa-credit-card"></i> Credit/Debit Card
+                    </label>
+                    <label>
+                        <input type="radio" name="payment-method" value="wallet">
+                        <i class="fas fa-wallet"></i> Wallets (Paytm, MobiKwik)
+                    </label>
+                    <label>
+                        <input type="radio" name="payment-method" value="cod">
+                        <i class="fas fa-cash-register"></i> Cash on Delivery
+                    </label>
+                </div>
+
+                <div class="input-field" id="card-form">
+                    <label for="card-number">Card Number</label>
+                    <input type="text" id="card-number" name="card-number" placeholder="1234 5678 9101 1121" required>
+                </div>
+                <div class="input-field" id="expiry-form">
+                    <label for="expiry-date">Expiry Date</label>
+                    <input type="text" id="expiry-date" name="expiry-date" placeholder="MM/YY" required>
+                </div>
+                <div class="input-field" id="cvv-form">
+                    <label for="cvv">CVV</label>
+                    <input type="text" id="cvv" name="cvv" placeholder="123" required>
+                </div>
+                
+                <button type="submit" class="btn">Pay Now</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-links">
+            <a href="#">About Us</a>
+            <a href="#">Contact Us</a>
+        </div>
+        <p>&copy; 2025 Modern Eats. All Rights Reserved.</p>
+    </footer>
+
+    <div class="chatbot-icon">
+        <i class="fas fa-comments"></i>
+    </div>
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background: #f9f9f9;
+        }
+
+        header {
+            background: rgba(0, 0, 0, 0.9);
+            color: #fff;
+            padding: 1.5rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        header .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-right: auto;
+        }
+
+        header .nav-links {
+            list-style: none;
+            display: flex;
+        }
+
+        header .nav-links li {
+            margin-left: 2.5rem;
+        }
+
+        header .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.2rem;
+        }
+
+        header .nav-links a:hover {
+            color: #ff6b6b;
+        }
+
+        .payment-section {
+            padding: 4rem 2rem;
+            text-align: center;
+            background: #fff;
+        }
+
+        .payment-container {
+            background-color: #f9f9f9;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .payment-container h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #000000;
+        }
+
+        .payment-container p {
+            font-size: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .order-summary {
+            text-align: left;
+            margin-bottom: 2rem;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.1rem;
+            margin: 0.5rem 0;
+        }
+
+        .order-total {
+            font-size: 1.2rem;
+            margin-top: 1rem;
+            font-weight: bold;
+        }
+
+        .payment-methods label {
+            display: block;
+            font-size: 1.2rem;
+            margin: 1rem 0;
+            cursor: pointer;
+        }
+
+        .payment-methods i {
+            margin-right: 10px;
+        }
+
+        .input-field {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .input-field label {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .input-field input {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            box-sizing: border-box;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #ff6b6b, #ff4c4c);
+            color: #fff;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #ff4c4c;
+        }
+
+        footer {
+            background: rgba(0, 0, 0, 0.9);
+            color: #fff;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 1rem;
+            font-size: 1rem;
+        }
+
+        .footer-links a:hover {
+            color: #ff6b6b;
+        }
+
+        .chatbot-icon {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: #ff6b6b;
+            color: #fff;
+            border-radius: 50%;
+            padding: 1rem;
+            font-size: 2rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .chatbot-icon:hover {
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 1rem 2rem;
+            }
+
+            .payment-container {
+                width: 90%;
+            }
+        }
+    </style>
+</body>
+</html>
