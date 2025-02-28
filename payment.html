@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +8,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
+    <div class="background-image"></div>
     <header>
         <div class="logo">Modern Eats</div>
         <ul class="nav-links">
@@ -24,40 +27,54 @@
             
             <div class="order-summary">
                 <h2>Order Summary</h2>
+                <div id="payment-items"></div>
+                <div id="payment-total"></div>
+            </div>
 
             <form id="payment-form">
                 <div class="payment-methods">
-                    <label>
-                        <input type="radio" name="payment-method" value="upi" checked> 
+                    <label class="payment-option">
+                        <input type="radio" name="payment-method" value="upi" checked>
                         <i class="fas fa-mobile-alt"></i> UPI (Google Pay, PhonePe, Paytm)
                     </label>
-                    <label>
-                        <input type="radio" name="payment-method" value="credit-card">
-                        <i class="fas fa-credit-card"></i> Credit/Debit Card
-                    </label>
-                    <label>
+                    <label class="payment-option">
                         <input type="radio" name="payment-method" value="wallet">
                         <i class="fas fa-wallet"></i> Wallets (Paytm, MobiKwik)
                     </label>
-                    <label>
+                    <label class="payment-option">
                         <input type="radio" name="payment-method" value="cod">
                         <i class="fas fa-cash-register"></i> Cash on Delivery
                     </label>
+                    <label class="payment-option">
+                        <input type="radio" name="payment-method" value="credit-card" id="credit-card-radio">
+                        <i class="fas fa-credit-card"></i> Credit/Debit Card
+                    </label>
                 </div>
 
-                <div class="input-field" id="card-form">
-                    <label for="card-number">Card Number</label>
-                    <input type="text" id="card-number" name="card-number" placeholder="1234 5678 9101 1121" required>
+                <div id="card-details-form" style="display: none; margin-top: 10px;">
+                    <div class="input-field">
+                        <label for="card-number">Card Number:</label>
+                        <input type="text" id="card-number" name="card-number" placeholder="Enter your card number" required
+                            pattern="\d{16}" aria-label="Card Number" aria-required="true">
+                    </div>
+                    <div class="input-field">
+                        <label for="expiration-date">Expiration Date:</label>
+                        <input type="month" id="expiration-date" name="expiration-date" required aria-label="Expiration Date"
+                            aria-required="true">
+                    </div>
+                    <div class="input-field">
+                        <label for="cvv">CVV:</label>
+                        <input type="text" id="cvv" name="cvv" placeholder="Enter CVV" required pattern="\d{3}"
+                            aria-label="CVV" aria-required="true">
+                    </div>
+                    <div id="card-terms-checkbox">
+                        <label>
+                            <input type="checkbox" name="card-terms" value="agree" required aria-required="true">
+                            I agree to the terms and conditions.
+                        </label>
+                    </div>
                 </div>
-                <div class="input-field" id="expiry-form">
-                    <label for="expiry-date">Expiry Date</label>
-                    <input type="text" id="expiry-date" name="expiry-date" placeholder="MM/YY" required>
-                </div>
-                <div class="input-field" id="cvv-form">
-                    <label for="cvv">CVV</label>
-                    <input type="text" id="cvv" name="cvv" placeholder="123" required>
-                </div>
-                
+
                 <button type="submit" class="btn">Pay Now</button>
             </form>
         </div>
@@ -81,7 +98,20 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            background: #f9f9f9;
+
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .background-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80') no-repeat center center/cover;
+            filter: blur(5px);
+            z-index: -1;
         }
 
         header {
@@ -125,22 +155,19 @@
         .payment-section {
             padding: 4rem 2rem;
             text-align: center;
-            background: #fff;
-        }
-
-        .payment-container {
-            background-color: #f9f9f9;
-            padding: 2rem;
+            background: rgba(255, 255, 255, 0.9);
             border-radius: 10px;
+            margin: 2rem auto;
+            max-width: 800px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
-            margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
 
         .payment-container h1 {
             font-size: 2.5rem;
             margin-bottom: 1rem;
-            color: #000000;
+            color: #000;
         }
 
         .payment-container p {
@@ -153,27 +180,28 @@
             margin-bottom: 2rem;
         }
 
-        .order-item {
+        .payment-methods {
             display: flex;
-            justify-content: space-between;
-            font-size: 1.1rem;
-            margin: 0.5rem 0;
+            flex-direction: column;
+            gap: 1rem;
         }
 
-        .order-total {
+        .payment-option {
+            display: flex;
+            align-items: center;
             font-size: 1.2rem;
-            margin-top: 1rem;
-            font-weight: bold;
-        }
-
-        .payment-methods label {
-            display: block;
-            font-size: 1.2rem;
-            margin: 1rem 0;
             cursor: pointer;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
         }
 
-        .payment-methods i {
+        .payment-option:hover {
+            background-color: #f9f9f9;
+        }
+
+        .payment-option i {
             margin-right: 10px;
         }
 
@@ -217,6 +245,8 @@
             color: #fff;
             text-align: center;
             padding: 1rem;
+            position: relative;
+            z-index: 1;
         }
 
         .footer-links {
@@ -248,6 +278,7 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             cursor: pointer;
             transition: transform 0.3s ease;
+            z-index: 1000;
         }
 
         .chatbot-icon:hover {
@@ -264,5 +295,32 @@
             }
         }
     </style>
+
+    <script>
+        const creditCardRadio = document.getElementById("credit-card-radio");
+        const cardDetailsForm = document.getElementById("card-details-form");
+
+        creditCardRadio.addEventListener('change', function () {
+            if (creditCardRadio.checked) {
+                cardDetailsForm.style.display = 'block';
+            } else {
+                cardDetailsForm.style.display = 'none';
+            }
+        });
+
+        window.onload = function() {
+            const cartData = JSON.parse(localStorage.getItem('cartData'));
+            const paymentTotal = document.getElementById('payment-total');
+            const paymentItems = document.getElementById('payment-items');
+
+            if (cartData) {
+                paymentTotal.textContent = "₹" + cartData.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                paymentItems.innerHTML = cartData.map(item => `
+                    <div>${item.name} - ₹${item.price} x ${item.quantity} = ₹${item.price * item.quantity}</div>
+                `).join("");
+            }
+        };
+    </script>
 </body>
+
 </html>
