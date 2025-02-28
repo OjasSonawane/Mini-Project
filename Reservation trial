@@ -1,0 +1,441 @@
+<?php
+// Database connection
+$servername = "localhost";
+$username = "root"; // Replace with your database username
+$password = ""; // Replace with your database password
+$dbname = "modern_eats";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Handle form submission for booking a table
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['book_table'])) {
+    $name = $_POST['name'];
+    $phone = $_POST['phone'];
+    $date = $_POST['date'];
+    $time = $_POST['time'];
+    $people = $_POST['people'];
+    $tableId = $_POST['tableId'];
+
+    // Check if the table is already booked
+    $stmt = $conn->prepare("SELECT is_booked FROM tables WHERE id = ?");
+    $stmt->bind_param("i", $tableId);
+    $stmt->execute();
+    $stmt->bind_result($is_booked);
+    $stmt->fetch();
+    $stmt->close();
+
+    if ($is_booked) {
+        $booking_error = "This table is already booked.";
+    } else {
+        // Insert the reservation
+        $stmt = $conn->prepare("INSERT INTO reservations (table_id, name, phone, date, time, people) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("issssi", $tableId, $name, $phone, $date, $time, $people);
+        $stmt->execute();
+        $stmt->close();
+
+        // Update the table status to booked
+        $stmt = $conn->prepare("UPDATE tables SET is_booked = TRUE WHERE id = ?");
+        $stmt->bind_param("i", $tableId);
+        $stmt->execute();
+        $stmt->close();
+
+        $booking_success = "Reservation successful!";
+    }
+}
+
+// Handle cancellation of reservation
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancel_reservation'])) {
+    $phone = $_POST['cancel-phone'];
+
+    // Find the reservation
+    $stmt = $conn->prepare("SELECT table_id FROM reservations WHERE phone = ?");
+    $stmt->bind_param("s", $phone);
+    $stmt->execute();
+    $stmt->bind_result($table_id);
+    $stmt->fetch();
+    $stmt->close();
+
+    if (!$table_id) {
+        $cancel_error = "No reservation found with this phone number.";
+    } else {
+        // Delete the reservation
+        $stmt = $conn->prepare("DELETE FROM reservations WHERE phone = ?");
+        $stmt->bind_param("s", $phone);
+        $stmt->execute();
+        $stmt->close();
+
+        // Update the table status to available
+        $stmt = $conn->prepare("UPDATE tables SET is_booked = FALSE WHERE id = ?");
+        $stmt->bind_param("i", $table_id);
+        $stmt->execute();
+        $stmt->close();
+
+        $cancel_success = "Reservation canceled successfully.";
+    }
+}
+
+// Fetch available tables
+$sql = "SELECT id, table_number FROM tables WHERE is_booked = FALSE";
+$result = $conn->query($sql);
+$tables = [];
+while ($row = $result->fetch_assoc()) {
+    $tables[] = $row;
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book a Table - Epicurean Bistro</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+     * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f9f9f9;
+            color: #333;
+            transition: background-color 0.3s, color 0.3s;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            background: url("1.avif") no-repeat center center/cover;
+            font-size: 16px;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: inherit;
+            filter: blur(8px);
+            z-index: -1;
+        }
+
+        header {
+            background: rgb(0, 0, 0);
+            color: #fff;
+            padding: 1.5rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            width: 100%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links li {
+            margin-left: 2.5rem;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #ff6b6b;
+        }
+
+        .main-container {
+            display: flex;
+            justify-content: space-between;
+            padding: 2rem;
+            margin-top: 100px;
+        }
+
+        .form-container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            width: 45%;
+            backdrop-filter: blur(5px);
+        }
+
+        .table-booking-container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            width: 45%;
+            backdrop-filter: blur(5px);
+        }
+
+        .table-photo {
+            margin-bottom: 20px; 
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="tel"],
+        input[type="date"],
+        input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            font-size: 1em;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px;
+            font-size: 1em;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .submit-btn {
+            background-color: #ff6b6b;
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            width: 100%;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background-color: #ff6b6b;
+            transform: scale(1.05);
+        }
+
+        .table-selection {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            padding: 10px;
+        }
+
+        .table-selection .table {
+            width: 100%;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .table-selection .table.selected {
+            background-color: #4c74af;
+            color: white;
+            border: 1px solid #4c74af;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 1001;
+        }
+
+        .modal-content {
+            background-color: rgba(0, 0, 0, 0.9);
+            color: rgb(255, 252, 252);
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(8px);
+        }
+
+        .modal-btn {
+            padding: 15px 30px;
+            font-size: 1.1em;
+            margin: 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #ff6b6b;
+            color: white;
+        }
+        footer {
+            background: rgb(0, 0, 0);
+            color: #fff;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 1rem;
+            font-size: 1rem;
+        }
+
+        .footer-links a:hover {
+            color: #ff6b6b;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Modern Eats</div>
+        <ul class="nav-links">
+            <li><a href="MiniP.html">Home</a></li>
+            <li><a href="menu.html">Menu</a></li>
+            <li><a href="#">Cancel Reservation</a></li>
+        </ul>
+    </header>
+
+    <main class="main-container">
+        <section class="form-container">
+            <h2>Book a Table</h2>
+            <?php if (isset($booking_error)): ?>
+                <div class="error"><?php echo $booking_error; ?></div>
+            <?php elseif (isset($booking_success)): ?>
+                <div class="success"><?php echo $booking_success; ?></div>
+            <?php endif; ?>
+            <form id="booking-form" class="booking-form" method="POST" action="">
+                <div class="input-group">
+                    <label for="name">Full Name:</label>
+                    <input type="text" id="name" name="name" required placeholder="Enter your full name">
+                </div>
+                <div class="input-group">
+                    <label for="phone">Phone Number:</label>
+                    <input type="tel" id="phone" name="phone" required placeholder="Enter your phone number">
+                </div>
+                <div class="input-group">
+                    <label for="date">Date:</label>
+                    <input type="date" id="date" name="date" required>
+                </div>
+                <div class="input-group">
+                    <label for="time">Time:</label>
+                    <select id="time" name="time" required>
+                        <?php
+                        $startTime = 12;
+                        $endTime = 23;
+                        for ($hour = $startTime; $hour <= $endTime; $hour++) {
+                            for ($minute = 0; $minute < 60; $minute += 30) {
+                                $time = sprintf("%02d:%02d", $hour, $minute);
+                                echo "<option value='$time'>$time</option>";
+                            }
+                        }
+                        ?>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="people">Number of People:</label>
+                    <input type="number" id="people" name="people" required min="1" placeholder="Enter number of people">
+                </div>
+                <input type="hidden" id="tableId" name="tableId">
+                <button type="submit" name="book_table" class="submit-btn">Book Table</button>
+            </form>
+        </section>
+
+        <section class="table-booking-container">
+            <h2>Select Your Table</h2>
+            <div class="table-photo">
+                <img src="2.jpg" alt="Table Layout" style="width: 100%; border-radius: 10px;">
+            </div>
+            <div id="table-selection" class="table-selection">
+                <?php foreach ($tables as $table): ?>
+                    <div class="table" data-table-id="<?php echo $table['id']; ?>" onclick="selectTable(this)">
+                        Table <?php echo $table['table_number']; ?>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </section>
+
+        <section class="cancel-reservation-container">
+            <h2>Cancel Reservation</h2>
+            <?php if (isset($cancel_error)): ?>
+                <div class="error"><?php echo $cancel_error; ?></div>
+            <?php elseif (isset($cancel_success)): ?>
+                <div class="success"><?php echo $cancel_success; ?></div>
+            <?php endif; ?>
+            <form id="cancel-form" method="POST" action="">
+                <div class="input-group">
+                    <label for="cancel-phone">Phone Number:</label>
+                    <input type="tel" id="cancel-phone" name="cancel-phone" required placeholder="Enter your phone number">
+                </div>
+                <button type="submit" name="cancel_reservation" class="submit-btn">Cancel Reservation</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-links">
+            <a href="#">About Us</a>
+            <a href="#">Contact Us</a>
+        </div>
+        <p>&copy; 2025 Modern Eats. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        function selectTable(tableDiv) {
+            const tables = document.querySelectorAll('.table');
+            tables.forEach(table => table.classList.remove('selected'));
+            tableDiv.classList.add('selected');
+            document.getElementById('tableId').value = tableDiv.dataset.tableId;
+        }
+    </script>
+</body>
+</html>
+<?php
+$conn->close();
+?>
