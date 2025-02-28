@@ -6,72 +6,6 @@
     <title>Modern Restaurant</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-</head>
-<body>
-    <header>
-        <div class="logo">Modern Eats</div>
-        <ul class="nav-links">
-            <li><a href="MiniP.html">Home</a></li>
-            <li><a href="#offers">Offers</a></li>
-            <li><a href="booking.html">Reservation</a></li>
-        </ul>
-    </header>
-
-    <section id="home" class="hero">
-        <div class="hero-content">
-            <h1>Welcome to Modern Eats</h1>
-            <p>Experience the finest dining in town</p>
-            <a href="booking.html" class="btn">Book a Table</a>
-        </div>
-    </section>
-
-    <section id="offers" class="offers">
-        <h2>Our Special Offers</h2>
-        <div class="offers-tiles">
-            <div class="offer-tile">
-                <img src="https://via.placeholder.com/300" alt="Offer 1">
-                <div class="offer-details">
-                    <h3>Offer 1</h3>
-                    <p>Get 20% off your meal!</p>
-                </div>
-            </div>
-            <div class="offer-tile">
-                <img src="https://via.placeholder.com/300" alt="Offer 2">
-                <div class="offer-details">
-                    <h3>Offer 2</h3>
-                    <p>Free dessert with every main course!</p>
-                </div>
-            </div>
-            <div class="offer-tile">
-                <img src="https://via.placeholder.com/300" alt="Offer 3">
-                <div class="offer-details">
-                    <h3>Offer 3</h3>
-                    <p>Buy one drink, get one free!</p>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-
-    <footer>
-        <div class="social-media">
-            <a href="#"><i class="fab fa-facebook"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-        </div>
-        <div class="footer-links">
-            <a href="#">About Us</a>
-            <a href="#">Contact</a>
-            <a href="#">Privacy Policy</a>
-        </div>
-        <p>&copy; 2025 Modern Eats. All Rights Reserved.</p>
-    </footer>
-
-
-    <div class="chatbot-icon">
-        <i class="fas fa-comments"></i>
-    </div>
 
     <style>
         body {
@@ -84,7 +18,7 @@
         }
 
         header {
-            background: rgba(0, 0, 0, 0.9);
+            background: rgb(0, 0, 0);
             color: #fff;
             padding: 1.5rem 4rem;
             display: flex;
@@ -199,103 +133,96 @@
             background-color: #ff4c4c;
         }
 
-
-        .offers {
-            padding: 4rem 2rem;
+        .about {
+            background: url('https://images.unsplash.com/photo-1481833761820-0509d3217039?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center/cover;
+            background-attachment: fixed;
+            padding: 6rem 2rem;
+            color: #fff;
             text-align: center;
-            background: #fff;
+            position: relative;
         }
 
-        .offers h2 {
+        .about::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(2px);
+        }
+
+        .about-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .about-content h2 {
             font-size: 2.5rem;
             margin-bottom: 2rem;
             animation: fadeIn 1s ease-out;
         }
 
-        .offers-tiles {
-            display: flex;
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
-            justify-content: flex-start;
-            animation: slideIn 20s linear infinite; 
-            overflow: hidden;
-            width: 100%;
+            justify-items: center;
         }
 
-        .offer-tile {
-            background: #fff;
-            width: 300px;
+        .about-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            transition: transform 0.3s ease;
-        }
-
-        .offer-tile:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .offer-tile img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-
-        .offer-tile img:hover {
-            transform: scale(1.05);
-        }
-
-        .offer-details {
-            padding: 1rem;
-            background-color: #ff6b6b;
-            color: white;
-            border-radius: 0 0 10px 10px;
             text-align: center;
+            transition: transform 0.3s ease, background 0.3s ease;
         }
 
-        .offer-details h3 {
+        .about-item:hover {
+            transform: translateY(-10px);
+            background: rgba(253, 253, 253, 0.2);
+        }
+
+        .about-item i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #ff6b6b;
+        }
+
+        .about-item h3 {
             font-size: 1.5rem;
+            margin-bottom: 1rem;
         }
 
-        .offer-details p {
+        .about-item p {
             font-size: 1rem;
-            margin-top: 0.5rem;
+            line-height: 1.6;
         }
 
+        footer {
+            background: rgb(0, 0, 0);
+            color: #fff;
+            text-align: center;
+            padding: 1rem;
+        }
 
         .footer-links {
             display: flex;
             justify-content: center;
-            margin: 1rem 0;
+            margin-bottom: 1rem;
         }
 
         .footer-links a {
-            color: #555;
+            color: #fff;
             text-decoration: none;
             margin: 0 1rem;
             font-size: 1rem;
-            transition: color 0.3s ease;
         }
 
         .footer-links a:hover {
-            color: #ff6b6b;
-        }
-
-        .social-media {
-            display: flex;
-            justify-content: center;
-            margin: 1rem 0;
-        }
-
-        .social-media a {
-            color: #555;
-            font-size: 1.5rem;
-            margin: 0 1rem;
-            transition: color 0.3s ease;
-        }
-
-        .social-media a:hover {
             color: #ff6b6b;
         }
 
@@ -315,15 +242,6 @@
 
         .chatbot-icon:hover {
             transform: scale(1.1);
-        }
-
-        @keyframes slideIn {
-            0% {
-                transform: translateX(0);
-            }
-            100% {
-                transform: translateX(-100%);
-            }
         }
 
         @keyframes fadeIn {
@@ -369,9 +287,16 @@
                 font-size: 1.2rem;
             }
 
-            .offer-tile {
-                width: 100%;
-                max-width: 300px;
+            .about-content {
+                padding: 0 1rem;
+            }
+
+            .about-content h2 {
+                font-size: 2rem;
+            }
+
+            .about-item {
+                padding: 1.5rem;
             }
         }
 
@@ -384,14 +309,72 @@
                 font-size: 1rem;
             }
 
-            .offers h2 {
-                font-size: 2rem;
+            .about-content h2 {
+                font-size: 1.8rem;
             }
 
-            .offer-tile {
-                width: 100%;
+            .about-item {
+                padding: 1rem;
             }
         }
     </style>
+</head>
+
+
+<body>
+    <header>
+        <div class="logo">Modern Eats</div>
+        <ul class="nav-links">
+            <li><a href="MiniP.html">Home</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="menu.html">Menu</a></li>
+            <li><a href="login.html">👤</a></li>
+        </ul>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Welcome to Modern Eats</h1>
+            <p>Experience the finest dining in town</p>
+            <a href="booking.html" class="btn">Book a Table</a>
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <div class="about-content">
+            <h2>About Modern Eats</h2>
+            <div class="about-grid">
+                <div class="about-item">
+                    <i class="fas fa-utensils"></i>
+                    <h3>Exquisite Cuisine</h3>
+                    <p>Our menu is crafted with the finest ingredients, offering a blend of traditional and modern flavors.</p>
+                </div>
+                <div class="about-item">
+                    <i class="fas fa-glass-cheers"></i>
+                    <h3>Elegant Ambiance</h3>
+                    <p>Enjoy a sophisticated dining experience in our beautifully designed restaurant.</p>
+                </div>
+                <div class="about-item">
+                    <i class="fas fa-heart"></i>
+                    <h3>Exceptional Service</h3>
+                    <p>Our dedicated staff ensures every guest feels special and well taken care of.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-links">
+            <a href="#">About Us</a>
+            <a href="#">Contact Us</a>
+        </div>
+        <p>&copy; 2025 Modern Eats. All Rights Reserved.</p>
+    </footer>
+
+    <div class="chatbot-icon">
+        <i class="fas fa-comments"></i>
+    </div>
+
+    
 </body>
 </html>
