@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Modern Eats</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background: #f9f9f9;
+            scroll-behavior: smooth;
+        }
+
+        header {
+            background: rgba(0, 0, 0, 0.9);
+            color: #fff;
+            padding: 1.5rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            animation: slideDown 0.8s ease-out;
+            flex-wrap: wrap;
+        }
+
+        header .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+            margin-right: auto;
+        }
+
+        header .logo:hover {
+            transform: scale(1.05);
+        }
+
+        header .nav-links {
+            list-style: none;
+            display: flex;
+        }
+
+        header .nav-links li {
+            margin-left: 2.5rem;
+        }
+
+        header .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+
+        header .nav-links a:hover {
+            color: #ff6b6b;
+        }
+
+        .dashboard-container {
+            display: flex;
+            padding: 2rem;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .dashboard-section {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .dashboard-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: #333;
+            border-bottom: 2px solid #ff6b6b;
+            padding-bottom: 0.5rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+        }
+
+        table th, table td {
+            padding: 1rem;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        table th {
+            background: #ff6b6b;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        table tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+        table tr:hover {
+            background: #f1f1f1;
+        }
+
+        footer {
+            background: rgba(0, 0, 0, 0.9);
+            color: #fff;
+            text-align: center;
+            padding: 1rem;
+            margin-top: 2rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 1rem;
+            font-size: 1rem;
+        }
+
+        .footer-links a:hover {
+            color: #ff6b6b;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-container {
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            .dashboard-section {
+                padding: 1.5rem;
+            }
+
+            header {
+                padding: 1rem 2rem;
+            }
+
+            header .logo {
+                font-size: 2rem;
+            }
+
+            header .nav-links li {
+                margin-left: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Modern Eats</div>
+        <ul class="nav-links">
+            <li><a href="MiniP.html">Home</a></li>
+            <li><a href="#offers">Offers</a></li>
+            <li><a href="menu.html">Menu</a></li>
+        </ul>
+    </header>
+
+    <div class="dashboard-container">
+        <div class="dashboard-section">
+            <h2>Today's Bookings</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Phone Number</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Number of People</th>
+                        <th>Table Number</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>John Doe</td>
+                        <td>123-456-7890</td>
+                        <td>2023-10-15</td>
+                        <td>19:00</td>
+                        <td>4</td>
+                        <td>5</td>
+                    </tr>
+                    <tr>
+                        <td>Jane Smith</td>
+                        <td>987-654-3210</td>
+                        <td>2023-10-15</td>
+                        <td>20:00</td>
+                        <td>2</td>
+                        <td>3</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="dashboard-section">
+            <h2>Orders</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Customer Name</th>
+                        <th>Phone Number</th>
+                        <th>Order Details</th>
+                        <th>Delivery Address</th>
+                        <th>Order Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>John Doe</td>
+                        <td>123-456-7890</td>
+                        <td>2 Pizzas, 1 Coke</td>
+                        <td>123 Main St, City</td>
+                        <td>2023-10-15</td>
+                    </tr>
+                    <tr>
+                        <td>Jane Smith</td>
+                        <td>987-654-3210</td>
+                        <td>1 Burger, 1 Fries</td>
+                        <td>456 Elm St, Town</td>
+                        <td>2023-10-15</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <footer>
+        <div class="footer-links">
+            <a href="#">About Us</a>
+            <a href="#">Contact Us</a>
+        </div>
+        <p>&copy; 2025 Modern Eats. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>
