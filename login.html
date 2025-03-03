@@ -16,6 +16,12 @@
                 document.getElementById('admin-login').style.display = 'block';
             }
         }
+
+        function handleAdminLogin(event) {
+            event.preventDefault(); // Prevent the default form submission
+            // Perform any validation or API calls here if needed
+            window.location.href = "view.html"; 
+        }
     </script>
 </head>
 <body>
@@ -48,7 +54,7 @@
 
             <div id="admin-login" class="login-option" style="display: none;">
                 <h3>Admin Login</h3>
-                <form action="admin-dashboard.html" method="POST">
+                <form onsubmit="handleAdminLogin(event)">
                     <input type="email" placeholder="Email" required>
                     <input type="password" placeholder="Password" required>
                     <button type="submit" class="btn">Login as Admin</button>
