@@ -6,8 +6,8 @@
     <title>Menu - Modern Eats</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
     <style>
+
         body {
             font-family: 'Poppins', sans-serif;
             margin: 0;
@@ -94,7 +94,7 @@
             position: absolute;
             top: 40px;
             right: 0;
-            background-color: white;
+            background-color: rgb(0, 0, 0);
             width: 250px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             padding: 10px;
@@ -208,12 +208,61 @@
         }
 
         .menu-item button:hover {
+            background-color: #383535;
+        }
+
+        .cart-items div {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #000000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .cart-items div button {
+            background-color: #ff4c4c;
+            color: rgb(0, 0, 0);
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .cart-items div button:hover {
             background-color: #333333;
         }
 
-        .cart-dropdown .cart-items div {
-            color: black;
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
+
+        .quantity-controls button {
+            background-color: #ff4c4c;
+            color: rgb(0, 0, 0);
+            border: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .quantity-controls button:hover {
+            background-color: #333333;
+        }
+
+        .quantity-controls span {
+            font-size: 1rem;
+            margin: 0 10px;
+        }
+
         footer {
             background: rgb(0, 0, 0);
             color: #fff;
@@ -236,6 +285,20 @@
 
         .footer-links a:hover {
             color: #ff6b6b;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(10px); }
+        }
+
+        .cart-item-remove {
+            animation: fadeOut 0.3s ease;
         }
     </style>
 </head>
@@ -401,14 +464,14 @@
                     <button class="add-to-cart">Add to Cart</button>
                 </div>
                 <div class="menu-item">
-                    <img src="https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a" alt="Fried Rice">
+                    <img src="https://images.unsplash.com/photo-1603133872878-684f208fb84b?q=80&w=3125&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Fried Rice">
                     <h3>Fried Rice</h3>
                     <p>Stir-fried rice with vegetables and soy sauce.</p>
                     <span>₹400</span>
                     <button class="add-to-cart">Add to Cart</button>
                 </div>
                 <div class="menu-item">
-                    <img src="https://images.unsplash.com/photo-1603133872878-684f208fb84b?q=80&w=3125&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Chow Mein">
+                    <img src="https://plus.unsplash.com/premium_photo-1661432812314-852a55cd9bcd?q=80&w=3132&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Chow Mein">
                     <h3>Chow Mein</h3>
                     <p>Stir-fried noodles with vegetables and your choice of meat.</p>
                     <span>₹350</span>
@@ -440,69 +503,103 @@
         <p>&copy; 2025 Modern Eats. All Rights Reserved.</p>
     </footer>
 
-    
 
     <script>
-     let cart = [];
-const cartCount = document.getElementById("cart-count");
-const cartTotal = document.getElementById("cart-total");
-const cartItems = document.getElementById("cart-items");
-const cartDropdown = document.getElementById("cart-dropdown");
+        let cart = [];
+        const cartCount = document.getElementById("cart-count");
+        const cartTotal = document.getElementById("cart-total");
+        const cartItems = document.getElementById("cart-items");
+        const cartDropdown = document.getElementById("cart-dropdown");
 
-function toggleCart() {
-    cartDropdown.style.display = cartDropdown.style.display === "block" ? "none" : "block";
-}
+        function toggleCart() {
+            cartDropdown.style.display = cartDropdown.style.display === "block" ? "none" : "block";
+        }
 
-function addToCart(itemName, itemPrice) {
-    const existingItem = cart.find(item => item.name === itemName);
-    if (existingItem) {
-        existingItem.quantity += 1; 
-    } else {
-        cart.push({ name: itemName, price: itemPrice, quantity: 1 }); 
-    }
-    updateCart();
-}
+        function addToCart(itemName, itemPrice) {
+            const existingItem = cart.find(item => item.name === itemName);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ name: itemName, price: itemPrice, quantity: 1 });
+            }
+            updateCart();
+            showFeedback(`${itemName} added to cart!`);
+        }
 
-function removeFromCart(itemName) {
-    cart = cart.filter(item => item.name !== itemName); 
-    updateCart();
-}
+        function removeFromCart(itemName) {
+            const itemIndex = cart.findIndex(item => item.name === itemName);
+            if (itemIndex !== -1) {
+                const itemElement = cartItems.children[itemIndex];
+                itemElement.classList.add("cart-item-remove");
+                setTimeout(() => {
+                    cart.splice(itemIndex, 1);
+                    updateCart();
+                    showFeedback(`${itemName} removed from cart!`);
+                }, 300); 
+            }
+        }
 
-function updateQuantity(itemName, newQuantity) {
-    const item = cart.find(item => item.name === itemName);
-    if (item && newQuantity > 0) {
-        item.quantity = newQuantity;
-        updateCart();
-    }
-}
+        function updateQuantity(itemName, change) {
+            const item = cart.find(item => item.name === itemName);
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    removeFromCart(itemName);
+                } else {
+                    updateCart();
+                }
+            }
+        }
 
-function updateCart() {
-    cartCount.textContent = cart.length;
-    cartTotal.textContent = "₹" + cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    cartItems.innerHTML = cart.map(item => `
-        <div>
-            ${item.name} - ₹${item.price} x 
-            <input type="number" value="${item.quantity}" min="1" onchange="updateQuantity('${item.name}', this.value)">
-            = ₹${item.price * item.quantity}
-            <button onclick="removeFromCart('${item.name}')">Remove</button>
-        </div>
-    `).join("");
-}
+        function updateCart() {
+            cartCount.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartTotal.textContent = "₹" + cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            cartItems.innerHTML = cart.map(item => `
+                <div>
+                    ${item.name} - ₹${item.price} 
+                    <div class="quantity-controls">
+                        <button onclick="updateQuantity('${item.name}', -1)">-</button>
+                        <span>${item.quantity}</span>
+                        <button onclick="updateQuantity('${item.name}', 1)">+</button>
+                    </div>
+                    = ₹${item.price * item.quantity}
+                    
+                </div>
+            `).join("");
+        }
 
-function proceedToPayment() {
-    localStorage.setItem('cartData', JSON.stringify(cart));
-    window.location.href = 'payment.html';
-}
+        function showFeedback(message) {
+            const feedback = document.createElement("div");
+            feedback.textContent = message;
+            feedback.style.position = "fixed";
+            feedback.style.bottom = "20px";
+            feedback.style.right = "20px";
+            feedback.style.backgroundColor = "#333";
+            feedback.style.color = "#fff";
+            feedback.style.padding = "10px 20px";
+            feedback.style.borderRadius = "5px";
+            feedback.style.zIndex = "1000";
+            feedback.style.animation = "fadeIn 0.3s ease";
+            document.body.appendChild(feedback);
+            setTimeout(() => {
+                feedback.style.animation = "fadeOut 0.3s ease";
+                setTimeout(() => feedback.remove(), 300);
+            }, 2000);
+        }
 
-document.querySelectorAll(".add-to-cart").forEach(button => {
-    button.addEventListener("click", function () {
-        const menuItem = this.closest(".menu-item");
-        const itemName = menuItem.querySelector("h3").textContent;
-        const itemPrice = parseInt(menuItem.querySelector("span").textContent.replace('₹', ''));
-        addToCart(itemName, itemPrice);
-    });
-});
+        function proceedToPayment() {
+            localStorage.setItem('cartData', JSON.stringify(cart));
+            window.location.href = 'payment.html';
+        }
 
+        document.querySelectorAll(".add-to-cart").forEach(button => {
+            button.addEventListener("click", function () {
+                const menuItem = this.closest(".menu-item");
+                const itemName = menuItem.querySelector("h3").textContent;
+                const itemPrice = parseInt(menuItem.querySelector("span").textContent.replace('₹', ''));
+                addToCart(itemName, itemPrice);
+            });
+        });
     </script>
 </body>
 </html>
