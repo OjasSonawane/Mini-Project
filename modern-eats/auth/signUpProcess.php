@@ -1,4 +1,4 @@
-<?php
+<?php 
 include '../includes/dbConnect.php';
 $BASE_URL = "http://localhost/modern-eats"; 
 if(isset($_POST['name'])){
@@ -93,4 +93,35 @@ catch(Exception $e){
   </script>
 ";
 }
+ 
+?>
+<?php /*
+session_start();
+include '../includes/dbConnect.php'; // DB connection
+require 'mailerConfig.php';         // PHPMailer config
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = $_POST['name'];
+    $email    = $_POST['email'];
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+
+    // Generate 6-digit OTP
+    $otp = rand(100000, 999999);
+
+    // Store user data + OTP in session temporarily
+    $_SESSION['temp_user'] = [
+        'username' => $username,
+        'email'    => $email,
+        'password' => $password,
+        'otp'      => $otp
+    ];
+
+    // Send OTP email
+    if (sendOTP($email, $otp)) {
+        header("Location: verifyOTP.php");
+        exit;
+    } else {
+        echo "❌ Failed to send OTP. Please try again.";
+    }
+}*/
 ?>

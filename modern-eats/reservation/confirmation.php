@@ -4,7 +4,7 @@ session_start();
 
 // Fetch the reservation details using the user_id from the session
 $id = $_SESSION['user_id'];
-
+$usename = $_SESSION['username'];
 $stmt = $mysqli->prepare("SELECT * FROM reservation_tables WHERE cust_id = ?");
 $stmt->bind_param("i", $id);
 
@@ -31,6 +31,8 @@ if ($stmt->execute()) {
             font-family: Arial, sans-serif;
         '>
             <h2>🎉 Reservation Confirmed!</h2>
+            <p><strong>Name:</strong>$username</p>
+            ><strong>Reservation id:</strong>$id</p>
             <p><strong>Date:</strong> $reservation_date</p>
             <p><strong>Time:</strong> $reservation_time</p>
             <p><strong>Reserved Tables:</strong> $reserved_tables</p>

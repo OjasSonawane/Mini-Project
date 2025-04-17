@@ -34,9 +34,9 @@ if (isset($_SESSION['user_id'])) {
             </a>
             <ul class="dropdown-menu dropdown-menu-dark">
               <li><a class="dropdown-item" href="<?= $BASE_URL ?>/reservation/booking.php">Book A Table</a></li>
-              <li><a class="dropdown-item" href="<?= $BASE_URL ?>/cancelReservation.php">Cancel Reservation</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="<?= $BASE_URL ?>/editReservation.php">Edit Reservation</a></li>
+              <li><a class="dropdown-item" href="<?= $BASE_URL ?>/reservation/cancelReservation.php">Cancel Reservation</a></li>
+              <!-- <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="<?= $BASE_URL ?>/editReservation.php">Edit Reservation</a></li> -->
             </ul>
           </li>
         <?php else: ?>
