@@ -24,6 +24,7 @@ try {
             $_SESSION['user_id'] = $row['user_id'];  // Store user ID
 $_SESSION['username'] = $row['username'];  // Store username
 $_SESSION['logged_in'] = true; 
+$_SESSION['email'] = $email;
             
             echo "
             <div id='reservationDetails' style='

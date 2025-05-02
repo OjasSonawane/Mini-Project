@@ -1,150 +1,11 @@
-<?php
-include '../includes/dbConnect.php';
-session_start();
 
-if (!isset($_SESSION['user_id'])) {
-  die("User not logged in.");
-}
-
-$_SESSION['reservationId'] = $_POST['postId'] ?? null;
-
-// Validate POST data
-$_SESSION['name'] = $_POST['name'] ?? null;
-$_SESSION['phone'] = $_POST['phone'] ?? null;
-$_SESSION['date'] = $_POST['date'] ?? null;
-$_SESSION['time'] = $_POST['time'] ?? null;
-$_SESSION['people'] = $_POST['people'] ?? null;
-
-
-$date = $_POST['date'];
-$time = $_POST['time'];
-$people = $_POST['people'];
-
-
-// Check if the user already has a reservation at the given time
-// $stmt = $mysqli->prepare("SELECT * FROM reservation_tables WHERE cust_id = ? AND reservation_time = ?");
-// if (!$stmt) {
-//   die("Prepare failed: " . $mysqli->error);
-// }
-// $stmt->bind_param("is", $id, $time);
-// $stmt->execute();
-// $result = $stmt->get_result();
-
-// if ($result->num_rows == 0) { // Correct check for existing reservation
-
-//   // Insert into reservations table
-//   $stmt = $mysqli->prepare("INSERT INTO reservations (customer_name, cust_contact, reservation_date, reservation_time, number_of_people, cust_id)
-//                               VALUES (?, ?, ?, ?, ?, ?)");
-//   if (!$stmt) {
-//     die("Prepare failed: " . $mysqli->error);
-//   }
-//   $stmt->bind_param("ssssii", $name, $phone, $date, $time, $people, $id);
-
-//   if (!$stmt->execute()) {
-//     die("Error inserting reservation: " . $stmt->error);
-//   }
-// } else {
-//   echo "You already have a time.";
-// }
-
-// $stmt->close();
-?>
-
-
-
-
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Book a Table</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../styles/booking.css">
-  <?php
-  include "../includes/bootstrapcdn.php";
-  ?>
-  <style>
-    .tables {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 20px;
-    }
-
-    .sec {
-
-      background-color: rgba(255, 255, 255, 0.9);
-      border: 2px solid white;
-      border-radius: 10px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-      padding: 10px;
-      transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out, color 0.3s ease-in-out;
-    }
-
-    .sec:hover {
-      transform: scale(1.1);
-      /* Increase size */
-      background-color: #f0f0f0;
-      /* Change background color */
-      color: #333;
-      /* Change text color */
-    }
-
-    .disabled {
-      background-color: #ccc !important;
-      color: #666 !important;
-      pointer-events: none;
-    }
-  </style>
-
-</head>
-
-<body>
-
-  <header>
-    <?php
-    include "../includes/navbar.php";
-    ?>
-  </header>
-
-
-  <main class="main-container">
-    <section class="form-container">
-      <img src="../images/2.jpg" alt="table" width="100%">
-      <form action="payment.php" method="POST">
-        <input type="hidden" name="date" value="<?php echo $date; ?>">
-        <input type="hidden" name="time" value="<?php echo $time; ?>">
-        <input type="hidden" id="selectedTables" name="tables"> <!-- Stores selected tables -->
-
-        <div class="tables"></div>
-        <br>
-        <div id='capacity'></div>
-        <br>
-        <div id="price"></div>
-        <br>
-        <button type="submit" id="confirmButton">Confirm Reservation</button>
-      </form>
-
-
-    </section>
-  </main>
-
-
-
-
-</body>
-<script>
   if (window.history.replaceState) {
     window.history.replaceState(null, null, window.location.href);
   }
 
   document.addEventListener("DOMContentLoaded", function() {
-    const selectedDate = "<?php echo  htmlspecialchars($date) ?>";
-    const selectedTime = "<?php echo  htmlspecialchars($time) ?>";
+    const selectedDate = "<?php echo $date; ?>";
+    const selectedTime = "<?php echo $time; ?>";
 
     if (!selectedDate || !selectedTime) {
       alert("Date and Time are required!");
@@ -259,7 +120,7 @@ $people = $_POST['people'];
           const tabId = button.dataset.tableId; // assuming you store table id like this
 
           if (!selectedTables.has(tabId)) { // if the table is not in selected set
-            button.classList.add("disabled");
+            button.disabled = true;
           }
         });
 
@@ -270,12 +131,9 @@ $people = $_POST['people'];
         const tableButtons = document.querySelectorAll('.sec');
 
         tableButtons.forEach(button => {
-          button.classList.remove("disabled");
+          button.disabled = false;
         });
       }
-       sessionStorage.setItem('cost',cost);
+
     });
   });
-</script>
-
-</html>

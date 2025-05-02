@@ -26,6 +26,7 @@ $stmt->close();
   session_start();
   $_SESSION['user_id'] = $id; // Store user ID
   $_SESSION['username'] = $name;  // Store username
+  $_SESSION['email'] = $email;
   $_SESSION['logged_in'] = true;
   echo "
         <div id='reservationDetails' style='

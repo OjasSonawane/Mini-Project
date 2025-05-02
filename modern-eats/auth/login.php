@@ -42,7 +42,7 @@
 
             <div id="admin-login" class="login-option" style="display: none;">
                 <h3>Admin Login</h3>
-                <form action="admin-dashboard.html" method="POST">
+                <form action="../auth/adminLogin.php" method="POST">
                     <input type="email" placeholder="Email" name="email" required pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"  >
 
                     <input type="password" placeholder="Password" name="pass" required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$">

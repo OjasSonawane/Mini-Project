@@ -51,7 +51,7 @@ if (isset($_SESSION['user_id'])) {
               <?= htmlspecialchars($user) ?>
             </a>
             <ul class="dropdown-menu dropdown-menu-dark">
-              <li><a class="dropdown-item" href="/user/profile">View Profile</a></li>
+              <li><a class="dropdown-item" href="<?= $BASE_URL ?>/user/profile.php">View Profile</a></li>
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item" href="<?= $BASE_URL ?>/auth/logout.php">Log Out</a></li>
             </ul>

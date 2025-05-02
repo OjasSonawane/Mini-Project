@@ -19,8 +19,12 @@ if (isset($_POST['date'], $_POST['time'], $_POST['tables'])) {
 
     // Redirect to confirmation page after successful booking
     header("Location: http://localhost/modern-eats/reservation/confirmation.php");
+    $stmt->close();
+$mysqli->close();
     exit();
 } else {
     echo "Invalid data!";
+    $stmt->close();
+$mysqli->close();
 }
 ?>
