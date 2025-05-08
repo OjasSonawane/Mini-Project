@@ -7,6 +7,20 @@ if (isset($_SESSION['admin_id'])) {
   $user = $_SESSION['admin_name'];
 }
 
+include '../includes/dbConnect.php';
+
+$stmt = $mysqli->prepare("SELECT SUM(price * quantity) AS total FROM order_items");
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($row = $result->fetch_assoc()) {
+    $totalAmount = $row['total'];
+    //echo "Total amount of all orders: ₹" . $totalAmount;
+} else {
+    //echo "No data found.";
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -26,13 +40,13 @@ if (isset($_SESSION['admin_id'])) {
 </head>
 <body>
     <header class="admin-header">
-        <a href="" class="logo">Modern Eats Admin</a>
+        <a href="http://localhost/modern-eats/admin/admin.php" class="logo">Modern Eats Admin</a>
         <div class="admin-nav">
             <a href="#"><i class="fas fa-bell"></i></a>
             <a href="#"><i class="fas fa-envelope"></i></a>
                 <span>Admin <?= htmlspecialchars($user) ?></span>  
             <a href="http://localhost/modern-eats/auth/logout.php"><button class="logout-btn">Logout</button></a>
-            <a href="http://localhost/modern-eats/admin/orders.php"><button class="logout-btn">Menu Management</button></a>
+            <a href="http://localhost/modern-eats/admin/onlineOrders.php"><button class="logout-btn">View Online Orders</button></a>
             
         </div>
     </header>
@@ -46,7 +60,7 @@ if (isset($_SESSION['admin_id'])) {
             <div class="stats-container">
                 <div class="stat-card">
                     <span class="stat-title">Total Revenue</span>
-                    <span class="stat-value">₹1200</span>
+                    <span class="stat-value"><?php echo $totalAmount ?></span>
                     <span class="stat-change positive"><i class="fas fa-arrow-up"></i> 12% from last month</span>
                 </div>
                 <div class="stat-card">
@@ -72,7 +86,7 @@ if (isset($_SESSION['admin_id'])) {
                     <i class="fas fa-search"></i>
                     <input type="text" placeholder="Search reservations...">
                 </div>
-                <button class="btn btn-primary" id="addReservationBtn"><i class="fas fa-plus"></i> Add Reservation</button>
+                <a class="btn btn-primary" id="addReservationBtn"><i class="fas fa-plus" href=""></i> Add Reservation</a>
             </div>
 
             <?php

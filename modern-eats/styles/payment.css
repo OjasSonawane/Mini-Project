@@ -20,43 +20,69 @@
         }
 
         header {
-            background: rgba(0, 0, 0, 0.9);
             color: #fff;
-            padding: 1.5rem 4rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             position: sticky;
             top: 0;
             z-index: 1000;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        header .logo {
+            animation: slideDown 0.8s ease-out;
+            flex-wrap: wrap;
+          }
+          
+           .custom-nav {
+            background-color: black !important;
+          }
+          
+          header .logo {
             font-size: 2.5rem;
             font-weight: bold;
+            transition: transform 0.3s ease;
             margin-right: auto;
-        }
-
-        header .nav-links {
+          }
+          
+          header .logo:hover {
+            transform: scale(1.05);
+          }
+          
+          header .nav-links {
             list-style: none;
             display: flex;
-        }
-
-        header .nav-links li {
+          }
+          
+          header .nav-links li {
             margin-left: 2.5rem;
-        }
-
-        header .nav-links a {
+          }
+          
+          header .nav-links a {
             color: #fff;
             text-decoration: none;
             font-size: 1.2rem;
+            transition: color 0.3s ease;
+          }
+          
+          header .nav-links a:hover {
+            color: #ff6b6b;
+          }
+        
+        .nav-links {
+            list-style: none;
+            display: flex;
         }
-
-        header .nav-links a:hover {
+        
+        .nav-links li {
+            margin-left: 2.5rem;
+        }
+        
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
             color: #ff6b6b;
         }
-
         .payment-section {
             padding: 4rem 2rem;
             text-align: center;

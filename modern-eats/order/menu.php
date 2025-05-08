@@ -1,10 +1,13 @@
 <?php
 session_start();
+if (!isset($_SESSION['user_id'])) {
+    header("Location: http://localhost/modern-eats/auth/login.php");
+}
 ?>
-
 <!DOCTYPE html>
 
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,14 +17,15 @@ session_start();
 
     <link rel="stylesheet" href="../styles/menu.css">
     <?php
-       include '../includes/bootstrapcdn.php';
-     ?>
+    include '../includes/bootstrapcdn.php';
+    ?>
 </head>
+
 <body>
     <header>
-     <?php
-       include '../includes/navbar.php';
-     ?>
+        <?php
+        include '../includes/navbar.php';
+        ?>
 
         <div class="cart-icon" onclick="toggleCart()">
             <i class="fas fa-shopping-cart"></i> <span id="cart-count">0</span>
@@ -33,7 +37,7 @@ session_start();
                 Total: ₹<span id="cart-total">0</span>
             </div>
             <div class="cart-actions">
-                <button onclick="proceedToPayment()">Proceed to Payment</button>
+                <button onclick="proceedToPayment()" id="payBtn">Proceed to Payment</button>
             </div>
         </div>
     </header>
@@ -206,6 +210,11 @@ session_start();
             </div>
         </div>
     </section>
+    <div>
+        <form action="./payment.php" method="post">
+        <input type="hidden" id="orderInfo" name="order" value="NULL"> 
+        </form>
+    </div>
 
     <footer>
         <div class="footer-links">
@@ -215,46 +224,66 @@ session_start();
         <p>&copy; 2025 Modern Eats. All Rights Reserved.</p>
     </footer>
 
-    
+
 
     <script>
-     let cart = [];
-const cartCount = document.getElementById("cart-count");
-const cartTotal = document.getElementById("cart-total");
-const cartItems = document.getElementById("cart-items");
-const cartDropdown = document.getElementById("cart-dropdown");
+        let cart = [];
+        const cartCount = document.getElementById("cart-count");
+        const cartTotal = document.getElementById("cart-total");
+        const cartItems = document.getElementById("cart-items");
+        const cartDropdown = document.getElementById("cart-dropdown");
+        const payBtn = document.getElementById('payBtn');
 
-function toggleCart() {
-    cartDropdown.style.display = cartDropdown.style.display === "block" ? "none" : "block";
+        if (cart.length === 0) {
+    payBtn.disabled = true;
+    payBtn.textContent = "Add items to cart first";
+} else {
+    payBtn.disabled = false;
+    payBtn.textContent = "Proceed to Payment";
 }
 
-function addToCart(itemName, itemPrice) {
-    const existingItem = cart.find(item => item.name === itemName);
-    if (existingItem) {
-        existingItem.quantity += 1; 
-    } else {
-        cart.push({ name: itemName, price: itemPrice, quantity: 1 }); 
-    }
-    updateCart();
-}
+        function toggleCart() {
+            cartDropdown.style.display = cartDropdown.style.display === "block" ? "none" : "block";
+        }
 
-function removeFromCart(itemName) {
-    cart = cart.filter(item => item.name !== itemName); 
-    updateCart();
-}
+        function addToCart(itemName, itemPrice) {
+            const existingItem = cart.find(item => item.name === itemName);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    name: itemName,
+                    price: itemPrice,
+                    quantity: 1
+                });
+            }
+            updateCart();
+        }
 
-function updateQuantity(itemName, newQuantity) {
-    const item = cart.find(item => item.name === itemName);
-    if (item && newQuantity > 0) {
-        item.quantity = newQuantity;
-        updateCart();
-    }
-}
+        function removeFromCart(itemName) {
+            cart = cart.filter(item => item.name !== itemName);
+            updateCart();
+        }
 
-function updateCart() {
-    cartCount.textContent = cart.length;
-    cartTotal.textContent = "₹" + cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    cartItems.innerHTML = cart.map(item => `
+        function updateQuantity(itemName, newQuantity) {
+            const item = cart.find(item => item.name === itemName);
+            if (item && newQuantity > 0) {
+                item.quantity = newQuantity;
+                updateCart();
+            }
+        }
+
+        function updateCart() {
+            if (cart.length === 0) {
+    payBtn.disabled = true;
+    payBtn.textContent = "Add items to cart first";
+} else {
+    payBtn.disabled = false;
+    payBtn.textContent = "Proceed to Payment";
+}
+            cartCount.textContent = cart.length;
+            cartTotal.textContent = "₹" + cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            cartItems.innerHTML = cart.map(item => `
         <div>
             ${item.name} - ₹${item.price} x 
             <input type="number" value="${item.quantity}" min="1" onchange="updateQuantity('${item.name}', this.value)">
@@ -262,22 +291,26 @@ function updateCart() {
             <button onclick="removeFromCart('${item.name}')">Remove</button>
         </div>
     `).join("");
-}
+        }
 
-function proceedToPayment() {
-    localStorage.setItem('cartData', JSON.stringify(cart));
-    window.location.href = 'http://localhost/modern-eats/order/payment.php';
-}
+        function proceedToPayment() {
+            localStorage.setItem('cartData', JSON.stringify(cart));
+            const orderInfo = document.getElementById("orderInfo");
+            orderInfo.value =  JSON.stringify(cart);
+            document.querySelector("form").submit();
+           
 
-document.querySelectorAll(".add-to-cart").forEach(button => {
-    button.addEventListener("click", function () {
-        const menuItem = this.closest(".menu-item");
-        const itemName = menuItem.querySelector("h3").textContent;
-        const itemPrice = parseInt(menuItem.querySelector("span").textContent.replace('₹', ''));
-        addToCart(itemName, itemPrice);
-    });
-});
+        }
 
+        document.querySelectorAll(".add-to-cart").forEach(button => {
+            button.addEventListener("click", function() {
+                const menuItem = this.closest(".menu-item");
+                const itemName = menuItem.querySelector("h3").textContent;
+                const itemPrice = parseInt(menuItem.querySelector("span").textContent.replace('₹', ''));
+                addToCart(itemName, itemPrice);
+            });
+        });
     </script>
 </body>
+
 </html>

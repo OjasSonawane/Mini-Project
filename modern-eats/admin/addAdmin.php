@@ -1,11 +1,11 @@
 <?php
 include '../includes/dbConnect.php';
 
-$admin_id = 1; // Hardcoded ID
-$full_name = 'Mohan';
-$email = 'mohan@gmail.com';
-$raw_password = 'Howareyou1@';
-$telephone = '1234567890';
+$admin_id = 2; // Hardcoded ID
+$full_name = 'admin';
+$email = 'admin1@gmail.com';
+$raw_password = 'Admin123@';
+$telephone = '0101010101';
 
 // Hash the password
 $hashed_password = password_hash($raw_password, PASSWORD_DEFAULT);

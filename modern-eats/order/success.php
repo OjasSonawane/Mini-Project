@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -96,13 +100,13 @@
                 } else {
                     updateMessage('Browser Not Supported', 'Your browser does not support geolocation.');
                     setTimeout(() => {
-                        window.location.href = "info.html";
+                        window.location.href = "info.php";
                     }, 2000);
                 }
             } else {
                 updateMessage('Location Denied', 'You can manually enter your address on the next page.');
                 setTimeout(() => {
-                    window.location.href = "info.html";
+                    window.location.href = "info.php";
                 }, 2000);
             }
         }
@@ -137,14 +141,14 @@
                     
                     // Redirect to next page
                     setTimeout(() => {
-                        window.location.href = "info.html";
+                        window.location.href = "info.php";
                     }, 1500);
                 })
                 .catch(error => {
                     console.error("Error getting address:", error);
                     updateMessage('Address Error', 'Could not determine your address automatically.');
                     setTimeout(() => {
-                        window.location.href = "info.html";
+                        window.location.href = "info.php";
                     }, 2000);
                 });
         }

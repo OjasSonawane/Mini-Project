@@ -21,33 +21,7 @@ $time = $_POST['time'];
 $people = $_POST['people'];
 
 
-// Check if the user already has a reservation at the given time
-// $stmt = $mysqli->prepare("SELECT * FROM reservation_tables WHERE cust_id = ? AND reservation_time = ?");
-// if (!$stmt) {
-//   die("Prepare failed: " . $mysqli->error);
-// }
-// $stmt->bind_param("is", $id, $time);
-// $stmt->execute();
-// $result = $stmt->get_result();
 
-// if ($result->num_rows == 0) { // Correct check for existing reservation
-
-//   // Insert into reservations table
-//   $stmt = $mysqli->prepare("INSERT INTO reservations (customer_name, cust_contact, reservation_date, reservation_time, number_of_people, cust_id)
-//                               VALUES (?, ?, ?, ?, ?, ?)");
-//   if (!$stmt) {
-//     die("Prepare failed: " . $mysqli->error);
-//   }
-//   $stmt->bind_param("ssssii", $name, $phone, $date, $time, $people, $id);
-
-//   if (!$stmt->execute()) {
-//     die("Error inserting reservation: " . $stmt->error);
-//   }
-// } else {
-//   echo "You already have a time.";
-// }
-
-// $stmt->close();
 ?>
 
 
@@ -87,11 +61,11 @@ $people = $_POST['people'];
 
     .sec:hover {
       transform: scale(1.1);
-      /* Increase size */
+      
       background-color: #f0f0f0;
-      /* Change background color */
+      
       color: #333;
-      /* Change text color */
+     
     }
 
     .disabled {
@@ -118,7 +92,7 @@ $people = $_POST['people'];
       <form action="payment.php" method="POST">
         <input type="hidden" name="date" value="<?php echo $date; ?>">
         <input type="hidden" name="time" value="<?php echo $time; ?>">
-        <input type="hidden" id="selectedTables" name="tables"> <!-- Stores selected tables -->
+        <input type="hidden" id="selectedTables" name="tables"> 
 
         <div class="tables"></div>
         <br>

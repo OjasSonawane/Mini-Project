@@ -1,3 +1,10 @@
+<?php
+session_start();
+$_SESSION['orderInfo'] = $_POST['order']; 
+echo $_SESSION['orderInfo'];
+$customer_name = $_SESSION['username'];
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,8 +40,18 @@
                 <div id="payment-items"></div>
                 <div id="payment-total" style="font-weight: bold; font-size: 1.2rem; margin-top: 1rem;"></div>
             </div>
+        
+            <form id="payment-form" action="paymentProcess.php" method="post">
 
-            <form id="payment-form">
+                <div class="contact-info">
+                <h3>Contact Informtion</h3>
+                <label for="customer_name">
+                    <input type="text" name="customer_name" required placeholder="Your Name" value=<?php echo $customer_name ?>>
+                </label>
+                <label for="phone">
+                    <input type="tel" name="phone" required placeholder="Phone">
+                </label>
+                </div>
                 <div class="payment-methods">
                     <label class="payment-option">
                         <input type="radio" name="payment-method" value="upi" checked>
@@ -148,7 +165,7 @@
             const cartData = JSON.parse(localStorage.getItem('cartData')) || [];
             const paymentTotal = document.getElementById('payment-total');
             const paymentItems = document.getElementById('payment-items');
-
+            console.log(cartData);
             if (cartData.length > 0) {
                 const total = cartData.reduce((sum, item) => sum + (item.price * item.quantity), 0);
                 paymentTotal.textContent = "Total: ₹" + total.toFixed(2);
@@ -231,7 +248,8 @@
                         // Clear cart
                         localStorage.removeItem('cartData');
                         // Redirect to success page
-                        window.location.href = 'http://localhost/modern-eats/order/success.php';
+                        // window.location.href = 'http://localhost/modern-eats/order/success.php';
+                        paymentForm.submit();
                     }, 2000);
                 }
             }, 300);

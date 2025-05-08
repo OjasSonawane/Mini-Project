@@ -1,72 +1,40 @@
 <?php
-include '../includes/dbConnect.php';
+include '../includes/dbConnect.php'; // connect as $mysqli
 
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $name  = $_POST['name'];
+    $phone = $_POST['phone'];
+    $date  = $_POST['date'];
+    $time  = $_POST['time'];
+    $people = $_POST['people'];
+    $table = $_POST['table'];  // Selected table number
 
+    // Begin transaction for safety
+    $mysqli->begin_transaction();
 
-// Validate POST data
-$name = $_POST['name'] ?? null;
-$phone = $_POST['phone'] ?? null;
-$date = $_POST['date'] ?? null;
-$time = $_POST['time'] ?? null;
-$people = $_POST['people'] ?? null;
+    try {
+        // Insert into reservations table
+        $stmt1 = $mysqli->prepare("INSERT INTO reservations (name, phone, date, time, people) VALUES (?, ?, ?, ?, ?)");
+        $stmt1->bind_param("ssssi", $name, $phone, $date, $time, $people);
+        $stmt1->execute();
 
-if (!$name || !$phone || !$date || !$time || !$people) {
-    die("Missing required fields.");
-}
+        // Get the auto-incremented reservation ID
+        $cust_id = $stmt1->insert_id;
 
-// Check if the user already has a reservation at the given time
-// $stmt = $mysqli->prepare("SELECT * FROM reservation_tables WHERE cust_id = ? AND reservation_time = ?");
-// if (!$stmt) {
-//     die("Prepare failed: " . $mysqli->error);
-// }
-// $stmt->bind_param("is", $id, $time);
-// $stmt->execute();
-// $result = $stmt->get_result();
+        // Insert into reservation_tables
+        $stmt2 = $mysqli->prepare("INSERT INTO reservation_tables (cust_id, reservation_date, reservation_time, table_number) VALUES (?, ?, ?, ?)");
+        $stmt2->bind_param("isss", $cust_id, $date, $time, $table);
+        $stmt2->execute();
 
-// if ($result->num_rows == 0) { // Correct check for existing reservation
+        // Commit transaction
+        $mysqli->commit();
 
-//     // Insert into reservations table
-//     $stmt = $mysqli->prepare("INSERT INTO reservations (customer_name, cust_contact, reservation_date, reservation_time, number_of_people, cust_id)
-//                               VALUES (?, ?, ?, ?, ?, ?)");
-//     if (!$stmt) {
-//         die("Prepare failed: " . $mysqli->error);
-//     }
-//     $stmt->bind_param("ssssii", $name, $phone, $date, $time, $people, $id);
-
-//     if (!$stmt->execute()) {
-//         die("Error inserting reservation: " . $stmt->error);
-//     }
-
-  
-// } else {
-//     echo "You already have a reservation at this time.";
-// }
-
-$stmt->close();
-?>
-<?php
-include '../includes/dbConnect.php'; // Your database connection
-
-if (isset($_POST['date'], $_POST['time'], $_POST['tables'])) {
-    $date = $_POST['date'];
-    $time = $_POST['time'];
-    $tables = explode(",", $_POST['tables']); // Convert comma-separated values to an array
-
-    if (empty($tables[0])) {
-        die("No tables selected.");
+        echo "Reservation added successfully!";
+        // Optionally redirect
+        // header("Location: reservationsList.php");
+    } catch (Exception $e) {
+        $mysqli->rollback();
+        echo "Error: " . $e->getMessage();
     }
-
-    $stmt = $mysqli->prepare("INSERT INTO reservation_tables (cust_id,table_id, reservation_date, reservation_time) VALUES (?,?, ?, ?)");
-
-    foreach ($tables as $table) {
-        $stmt->bind_param("iiss",$_SESSION['user_id'], $table, $date, $time);
-        $stmt->execute();
-    }
-
-    // Redirect to confirmation page after successful booking
-    header("Location: http://localhost/modern-eats/reservation/confirmation.php");
-    exit();
-} else {
-    echo "Invalid data!";
 }
 ?>
